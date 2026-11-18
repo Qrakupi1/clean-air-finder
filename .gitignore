@@ -1,0 +1,19 @@
+# Credentials
+.env
+.env.*
+!.env.example
+
+# Local datasets and generated files
+/output/
+/backups/
+
+# Dependencies and temporary files
+/vendor/
+*.backup
+*.tmp
+.DS_Store
+
+# IDE and OS files
+.idea/
+.vscode/
+Thumbs.db
