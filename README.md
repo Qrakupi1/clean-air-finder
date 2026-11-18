@@ -2,6 +2,12 @@
 
 Clean Air Finder is a small web app that compares PM2.5 air pollution in Bulgarian cities. Choose a start and end date to see which city had the lowest average pollution during that period. The page also shows daily values and how much data was available.
 
+**Live website:** https://clean-air-finder.duckdns.org
+
+**Source code:** https://github.com/Qrakupi1/clean-air-finder
+
+The application is hosted on an Oracle Cloud Ubuntu server using Docker Compose, Nginx, PHP, MySQL and Caddy for HTTPS.
+
 ## Tech stack
 
 - PHP 8.3 for the API and data import scripts
@@ -49,7 +55,25 @@ In a local test of **400 requests** across 7-, 30-, 90- and 365-day searches, th
 
 The main limitation is data coverage: only three cities currently have enough comparable PM2.5 measurements for a full-year ranking. Some hourly timestamps and daylight-saving changes also need careful handling. The project uses a fixed 24-hour expectation for daily coverage.
 
-Next steps are to automate regular imports, archive older measurements, finish the public deployment and connect the metrics to a monitoring service. These are not yet presented as completed features.
+Next steps are to automate regular imports and connect the metrics to a monitoring service. These are not yet presented as completed features.
+
+## Deployment
+
+The application runs on an Oracle Cloud ARM64 server.
+
+To start the production containers:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.production.yml up -d --build
+```
+
+The production setup uses Caddy for HTTPS and keeps MySQL and PHP off public ports.
+
+Create a `.env` file from `.env.example` and provide your own database credentials before starting. Initialize the database using `database/schema.sql` and `database/seed.sql`.
+
+Historical measurements are not stored in GitHub. They must be imported separately before the city rankings are available.
+
+The application exposes `/api/v1/health/ready` for readiness checks. The `/metrics` endpoint is blocked from public access.
 
 ## AI usage
 
