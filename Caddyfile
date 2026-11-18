@@ -1,0 +1,6 @@
+clean-air-finder.duckdns.org {
+    @metrics path /metrics /api/v1/metrics
+    respond @metrics 403
+
+    reverse_proxy nginx:80
+}
